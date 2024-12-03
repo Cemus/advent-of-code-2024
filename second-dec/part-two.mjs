@@ -20,7 +20,7 @@ let safeReports = 0;
 formattedInput.forEach((line) => {
   let isReportSafe = true;
   let isIncreasing = null;
-
+  let error = 0;
   for (let index = 0; index < line.length; index++) {
     const currentValue = line[index];
     const nextValue = line[index + 1];
@@ -32,24 +32,44 @@ formattedInput.forEach((line) => {
           if (operationValue >= 1 && operationValue <= 3) {
             isIncreasing = true;
           } else {
+            if (error === 0) {
+              isIncreasing = true;
+              error++;
+            } else {
+              isReportSafe = false;
+              return;
+            }
+          }
+        } else {
+          if (error === 0) {
+            isIncreasing = true;
+            error++;
+          } else {
             isReportSafe = false;
             return;
           }
-        } else {
-          isReportSafe = false;
-          return;
         }
       } else {
         if (isIncreasing === null || !isIncreasing) {
           if (operationValue >= -3 && operationValue <= -1) {
             isIncreasing = false;
           } else {
+            if (error === 0) {
+              isIncreasing = false;
+              error++;
+            } else {
+              isReportSafe = false;
+              return;
+            }
+          }
+        } else {
+          if (error === 0) {
+            isIncreasing = false;
+            error++;
+          } else {
             isReportSafe = false;
             return;
           }
-        } else {
-          isReportSafe = false;
-          return;
         }
       }
     }
